@@ -25,13 +25,18 @@ public class Gazetest: MonoBehaviour {
 		}
 
 		private void HandleOut(){
+			int code;
 			m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.red;
 			//Debug.Log ("Name:" + m_InteractiveItem.name);
 			if (m_InteractiveItem.tag.Contains ("Enter")) {
 				mVRDevice.onEvent (m_InteractiveItem.name);
 			} else if (m_InteractiveItem.tag.Contains ("Inner")) {
-				if(m_InteractiveItem.transform.parent.parent.tag.CompareTo("KeyContainer")==0)
-					mVRDevice.onEvent ("10"+m_InteractiveItem.name);
+				if (m_InteractiveItem.transform.parent.parent.tag.CompareTo ("KeyContainer") == 0) {
+					
+					int.TryParse (m_InteractiveItem.name, out code);
+					string temp = (100 + code).ToString();
+					mVRDevice.onEvent (temp);
+				}
 			}
 
 			/*else if (m_InteractiveItem.tag.Contains ("Exit")) {
