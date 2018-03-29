@@ -6,3 +6,10 @@
 /build/*
 */VRSampleScenes/*
 */TutorialInfo/*
+*/.vs/
+KeyboardOptimized.sln
+*/bin/*
+*/obj/*
+*/Properties/*
+*/*.config
+*/*.csproj
