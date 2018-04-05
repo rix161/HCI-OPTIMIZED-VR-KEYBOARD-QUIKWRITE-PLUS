@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 namespace VRStandardAssets.Utils
 {
@@ -24,6 +26,13 @@ namespace VRStandardAssets.Utils
         
         private VRInteractiveItem m_CurrentInteractible;                //The current interactive item
         private VRInteractiveItem m_LastInteractible;                   //The last interactive item
+
+		#region Public Variables
+		public float loadingTime;
+		public Image circle;
+		public GameObject myObj;
+		#endregion
+
 
 
         // Utility for other classes to get the current interactive item
@@ -60,6 +69,43 @@ namespace VRStandardAssets.Utils
             EyeRaycast();
         }
 
+
+
+		#region Private Methods
+		private IEnumerator FillCircle(VRInteractiveItem target) {
+			// When the circle starts to fill, reset the timer.
+			float timer = 0f;
+			circle.fillAmount = 0f;
+
+			while (timer < loadingTime) {
+				if (m_LastInteractible!=null && target.name != m_LastInteractible.name) {
+					yield break;
+				}
+
+				timer += Time.deltaTime;
+				circle.fillAmount = timer / loadingTime;
+				yield return null;
+			}
+
+			circle.fillAmount = 1f;
+
+			target.Over ();
+			ResetGazer();
+		}
+
+		// Reset the loading circle to initial, and clear last detected target.
+		private void ResetGazer() {
+			if (circle == null) {
+				Debug.LogError("Please assign target loading image, (ie. circle image)");
+				return;
+			}
+
+			circle.fillAmount = 0f;
+		}
+		#endregion
+
+
+
       
         private void EyeRaycast()
         {
@@ -79,13 +125,23 @@ namespace VRStandardAssets.Utils
                 VRInteractiveItem interactible = hit.collider.GetComponent<VRInteractiveItem>(); //attempt to get the VRInteractiveItem on the hit object
 				m_CurrentInteractible = interactible;
 
+
                 // If we hit an interactive item and it's not the same as the last interactive item, then call Over
-                if (interactible && interactible != m_LastInteractible)
-                    interactible.Over(); 
+				if (interactible && interactible != m_LastInteractible) {
+					
+					if (interactible != null && interactible.transform.name.Contains ("Start")) { 
+						m_LastInteractible = interactible;
+						StartCoroutine (FillCircle (interactible));
+					}
+					else
+						interactible.Over ();
+
+				}
 
                 // Deactive the last interactive item 
                 if (interactible != m_LastInteractible)
                     DeactiveLastInteractible();
+
 
                 m_LastInteractible = interactible;
 

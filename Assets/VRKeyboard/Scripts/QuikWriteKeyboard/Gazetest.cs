@@ -20,11 +20,6 @@ public class Gazetest: MonoBehaviour {
 
 		}
 		private void HandleOver (){
-			m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.blue; 
-
-		}
-
-		private void HandleOut(){
 			int code;
 			m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.red;
 			//Debug.Log ("Name:" + m_InteractiveItem.name);
@@ -32,18 +27,21 @@ public class Gazetest: MonoBehaviour {
 				mVRDevice.onEvent (m_InteractiveItem.name);
 			} else if (m_InteractiveItem.tag.Contains ("Inner")) {
 				if (m_InteractiveItem.transform.parent.parent.tag.CompareTo ("KeyContainer") == 0) {
-					
+
 					int.TryParse (m_InteractiveItem.name, out code);
-					string temp = (100 + code).ToString();
+					string temp = (100 + code).ToString ();
 					mVRDevice.onEvent (temp);
 				}
+			
+			} else if (m_InteractiveItem.transform.name.Contains ("Start")) {
+				
 			}
 
-			/*else if (m_InteractiveItem.tag.Contains ("Exit")) {
-				if(m_InteractiveItem.transform.parent.parent.tag.CompareTo("KeyContainer")==0)
-					mVRDevice.onEvent (m_InteractiveItem.transform.parent.parent.name+m_InteractiveItem.name);
-			}*/
 
+		}
+
+		private void HandleOut(){
+			m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.blue; 
 		}
 	}
 }

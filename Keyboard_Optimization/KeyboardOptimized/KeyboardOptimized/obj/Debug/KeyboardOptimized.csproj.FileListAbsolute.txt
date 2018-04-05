@@ -1,0 +1,6 @@
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\bin\Debug\KeyboardOptimized.exe.config
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\bin\Debug\KeyboardOptimized.exe
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\bin\Debug\KeyboardOptimized.pdb
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\obj\Debug\KeyboardOptimized.csprojResolveAssemblyReference.cache
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\obj\Debug\KeyboardOptimized.exe
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\obj\Debug\KeyboardOptimized.pdb

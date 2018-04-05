@@ -1,0 +1,5 @@
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\bin\Release\KeyboardOptimized.exe.config
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\bin\Release\KeyboardOptimized.exe
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\bin\Release\KeyboardOptimized.pdb
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\obj\Release\KeyboardOptimized.exe
+F:\Masters\Sem2\HCI\Project\Keyboard_Optimization\KeyboardOptimized\KeyboardOptimized\obj\Release\KeyboardOptimized.pdb

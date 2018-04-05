@@ -20,36 +20,44 @@ namespace VRStandardAssets.Utils
 		private int gridCross;
 		private int innerGridCross;
 
+		private int state = -1;
+
 		char [,]QuikWritting = new char[8,5]
-							  { {'A','K','S','M','Q'},
+							  { {'A','K','S','Q','M'},
 							  {'E','H',' ',' ','C'},
 							  {'O','V','W','G','Z'},
 							  {' ',' ',' ',' ',' '},
 							  {'I','B','D','R','J'},
-							  {'T',' ','Y',' ','T'},
+							  {'T','Y',' ',' ','U'},
 							  {'N','X','L','F','P'},
 							  {' ',' ',' ',' ',' '}};
 							
 
-		private string codeToChar(int enterCode,int innerGridCross, int exitCode){
+		private void codeToChar(int enterCode,int innerGridCross, int exitCode){
 			string retString = "";
 			enterCode = enterCode - 1;
 			exitCode = exitCode - 1;
 			int i = enterCode;
-			if (enterCode == 1 && exitCode == 7) {
-				exitCode = 0;
-			} else if (enterCode == 7 && exitCode == 1) {
-				exitCode = 9;
+
+			int interCode = enterCode - exitCode;
+
+			if (enterCode == 0 && exitCode == 7) {
+				interCode = 1;
+			} else if (enterCode == 7 && exitCode == 0) {
+				interCode = -1;
 			}
 
-			int j = enterCode - exitCode + innerGridCross;
+			int j = interCode + innerGridCross;
 			j = j<0?(j+5):j;
 
 			if(i>=0 && i<QuikWritting.GetLength(0) && j>=0 && j<QuikWritting.GetLength(1))
 				retString = ""+QuikWritting [i,j];
 
-
-			return retString;
+			//backspace key
+			if(enterCode == 7 && exitCode == 7)
+				inputText.text = inputText.text.Substring(0,(inputText.text.Length - 1));
+			else
+				inputText.text += retString;
 
 		}
 
@@ -57,15 +65,15 @@ namespace VRStandardAssets.Utils
 			int EXZONE = 9;
 			int code;
 			int.TryParse (mString, out code);
-			if (code <= 0)
-				return;
+			if (code <= 0) {
+				
+			}
 
 			if (code < EXZONE) {
 				zoneEntered = !zoneEntered;
 				if (!zoneEntered) {
 					exitCode = code;
-					string strCode = codeToChar (enterCode,innerGridCross, exitCode);
-					inputText.text += strCode;
+					codeToChar (enterCode,innerGridCross, exitCode);
 					enterCode = 0;
 					exitCode = 0;
 					gridCross = 0;

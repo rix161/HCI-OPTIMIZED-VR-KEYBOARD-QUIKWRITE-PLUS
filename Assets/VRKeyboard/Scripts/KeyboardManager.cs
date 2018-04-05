@@ -36,7 +36,7 @@ namespace VRKeyboard.Utils {
         #region Monobehaviour Callbacks
         private void Awake() {
             
-            for (int i = 0; i < characters.childCount; i++) {
+            /*for (int i = 0; i < characters.childCount; i++) {
                 GameObject key = characters.GetChild(i).gameObject;
                 Text _text = key.GetComponentInChildren<Text>();
                 keysDictionary.Add(key, _text);
@@ -47,7 +47,7 @@ namespace VRKeyboard.Utils {
             }
 
             capslockFlag = isUppercase;
-            CapsLock();
+            CapsLock();*/
         }
         #endregion
 
