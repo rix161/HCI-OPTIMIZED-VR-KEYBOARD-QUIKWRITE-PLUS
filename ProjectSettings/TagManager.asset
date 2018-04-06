@@ -10,6 +10,8 @@ TagManager:
   - InnerZone
   - ZoneExit
   - StateChange
+  - ZoneChange
+  - ZoneZero
   layers:
   - Default
   - TransparentFX

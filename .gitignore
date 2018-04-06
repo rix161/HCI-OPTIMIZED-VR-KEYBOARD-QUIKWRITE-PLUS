@@ -13,3 +13,10 @@ KeyboardOptimized.sln
 */Properties/*
 */*.config
 */*.csproj
+Keyboard_Optimization/KeyboardOptimized/.vs/KeyboardOptimized/v14/.suo
+Keyboard_Optimization/KeyboardOptimized/KeyboardOptimized/App.config
+*.exe
+Keyboard_Optimization/KeyboardOptimized/KeyboardOptimized/bin/Debug/KeyboardOptimized.exe.config
+Keyboard_Optimization/KeyboardOptimized/KeyboardOptimized/bin/Debug/KeyboardOptimized.pdb
+Keyboard_Optimization/KeyboardOptimized/KeyboardOptimized/bin/Debug/KeyboardOptimized.vshost.exe.config
+Keyboard_Optimization/KeyboardOptimized/KeyboardOptimized/bin/Debug/KeyboardOptimized.vshost.exe.config

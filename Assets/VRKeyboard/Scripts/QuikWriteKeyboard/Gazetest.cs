@@ -21,8 +21,29 @@ public class Gazetest: MonoBehaviour {
 		}
 		private void HandleOver (){
 			int code;
-			m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.red;
-			//Debug.Log ("Name:" + m_InteractiveItem.name);
+			//m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.blue;
+			Debug.Log ("Name:" + m_InteractiveItem.name);
+
+			if(m_InteractiveItem.tag.Contains("Zero") || m_InteractiveItem.tag.Contains ("Enter")){
+				if(m_InteractiveItem.tag.Contains("Enter"))
+					m_InteractiveItem.GetComponent<Renderer>().material.color = Color.blue;
+				mVRDevice.onEvent (m_InteractiveItem.name);
+			}
+			else if (m_InteractiveItem.tag.Contains ("Inner")) {
+					int.TryParse (m_InteractiveItem.name, out code);
+					string temp = (100 + code).ToString ();
+					mVRDevice.onEvent (temp);
+			} else if (m_InteractiveItem.transform.name.Contains ("Start")) {
+				
+			}
+
+
+		}
+
+		private void HandleOut(){
+			int code;
+			//m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.red;
+			/*Debug.Log ("Name:" + m_InteractiveItem.name);
 			if (m_InteractiveItem.tag.Contains ("Enter")) {
 				mVRDevice.onEvent (m_InteractiveItem.name);
 			} else if (m_InteractiveItem.tag.Contains ("Inner")) {
@@ -32,16 +53,11 @@ public class Gazetest: MonoBehaviour {
 					string temp = (100 + code).ToString ();
 					mVRDevice.onEvent (temp);
 				}
-			
+
 			} else if (m_InteractiveItem.transform.name.Contains ("Start")) {
-				
-			}
 
+			}*/
 
-		}
-
-		private void HandleOut(){
-			m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.blue; 
 		}
 	}
 }
