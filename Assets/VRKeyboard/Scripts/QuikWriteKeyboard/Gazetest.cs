@@ -30,6 +30,7 @@ public class Gazetest: MonoBehaviour {
 				mVRDevice.onEvent (m_InteractiveItem.name);
 			}
 			else if (m_InteractiveItem.tag.Contains ("Inner")) {
+					m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.blue;
 					int.TryParse (m_InteractiveItem.name, out code);
 					string temp = (100 + code).ToString ();
 					mVRDevice.onEvent (temp);
@@ -42,6 +43,7 @@ public class Gazetest: MonoBehaviour {
 
 		private void HandleOut(){
 			int code;
+			m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.red;
 			//m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.red;
 			/*Debug.Log ("Name:" + m_InteractiveItem.name);
 			if (m_InteractiveItem.tag.Contains ("Enter")) {

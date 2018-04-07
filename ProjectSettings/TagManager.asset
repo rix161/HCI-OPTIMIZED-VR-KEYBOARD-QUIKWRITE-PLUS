@@ -12,6 +12,7 @@ TagManager:
   - StateChange
   - ZoneChange
   - ZoneZero
+  - VRButton
   layers:
   - Default
   - TransparentFX

@@ -118,17 +118,31 @@ namespace VRStandardAssets.Utils
             // Create a ray that points forwards from the camera.
             Ray ray = new Ray(m_Camera.position, m_Camera.forward);
             RaycastHit hit;
-            
-            // Do the raycast forweards to see if we hit an interactive item
-            if (Physics.Raycast(ray, out hit, m_RayLength, ~m_ExclusionLayers))
-            {
-                VRInteractiveItem interactible = hit.collider.GetComponent<VRInteractiveItem>(); //attempt to get the VRInteractiveItem on the hit object
-				m_CurrentInteractible = interactible;
+			RaycastHit []hits;
+			VRInteractiveItem cInteractable = null;
+			int hitIndex = -1;
 
+			hits = Physics.RaycastAll (ray);
+			foreach (RaycastHit hitDash in hits) {
+				hitIndex++;
+				VRInteractiveItem interactible = hitDash.collider.GetComponent<VRInteractiveItem>();
+				if (interactible != null) {
+					cInteractable = interactible;
+
+					if (cInteractable.tag.Contains ("Button") || cInteractable.tag.Contains("Inner"))
+						break;
+				}
+			} 
+            // Do the raycast forweards to see if we hit an interactive item
+			if (cInteractable!=null)
+            {
+				VRInteractiveItem interactible = cInteractable;
+				m_CurrentInteractible = interactible;
+				Debug.Log ("GFX: VREyeRaycaster:" + interactible.transform.name);
 
                 // If we hit an interactive item and it's not the same as the last interactive item, then call Over
 				if (interactible && interactible != m_LastInteractible) {
-					
+					//Debug.Log ("VREyeRaycaster:" + interactible.transform.name);
 					if (interactible != null && interactible.transform.name.Contains ("Start")) { 
 						m_LastInteractible = interactible;
 						StartCoroutine (FillCircle (interactible));
@@ -147,10 +161,10 @@ namespace VRStandardAssets.Utils
 
                 // Something was hit, set at the hit position.
                 if (m_Reticle)
-                    m_Reticle.SetPosition(hit);
+					m_Reticle.SetPosition(hits[hitIndex]);
 
                 if (OnRaycasthit != null)
-                    OnRaycasthit(hit);
+					OnRaycasthit(hits[hitIndex]);
             }
             else
             {
