@@ -56,6 +56,8 @@
      <Compile Include="Assets\VRKeyboard\Scripts\KeyboardManager.cs" />
      <Compile Include="Assets\VRKeyboard\Scripts\QuikWriteKeyboard\Gazetest.cs" />
      <Compile Include="Assets\VRKeyboard\Scripts\QuikWriteKeyboard\QuikKeyManager.cs" />
+     <Compile Include="Assets\VRKeyboard\Scripts\wordPrediction\EditDistance.cs" />
+     <Compile Include="Assets\VRKeyboard\Scripts\wordPrediction\SymSpell.cs" />
      <Compile Include="Assets\VRSampleScenes\Scripts\Common\SessionData.cs" />
      <Compile Include="Assets\VRSampleScenes\Scripts\Examples\ExampleInteractiveItem.cs" />
      <Compile Include="Assets\VRSampleScenes\Scripts\Examples\ExampleRenderScale.cs" />
@@ -114,11 +116,13 @@
      <Compile Include="Assets\VRStandardAssets\Scripts\VRInput.cs" />
      <Compile Include="Assets\VRStandardAssets\Scripts\VRInteractiveItem.cs" />
      <Compile Include="Assets\VRStandardAssets\Scripts\VRTrackingReset.cs" />
+     <None Include="Assets\VRKeyboard\Resources\dataset.txt" />
      <None Include="Assets\VRSampleScenes\Shaders\UnlitTransparentParam.shader" />
      <None Include="Assets\VRKeyboard\README.txt" />
      <None Include="Assets\Plugins\Android\Assets\OSIG_Readme.txt" />
      <None Include="Assets\VRSampleScenes\Shaders\UIOverlay.shader" />
      <None Include="Assets\VRSampleScenes\Shaders\PriorityParticleAlpha.shader" />
+     <None Include="Assets\Resources\dataset.txt" />
      <None Include="Assets\VRSampleScenes\Shaders\SlidingUV.shader" />
      <None Include="Assets\VRSampleScenes\Shaders\SeparableAlpha.shader" />
      <None Include="Assets\VRSampleScenes\Fonts\LICENSE.txt" />

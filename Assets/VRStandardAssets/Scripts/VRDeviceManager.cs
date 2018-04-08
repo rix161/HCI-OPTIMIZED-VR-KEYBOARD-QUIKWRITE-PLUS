@@ -11,7 +11,10 @@ namespace VRStandardAssets.Utils
     public class VRDeviceManager : MonoBehaviour
     {
         [SerializeField] private float m_RenderScale = 1.4f;
-		[Header("UI Elements")] public Text inputText; 
+		[Header("UI Elements")] 
+		public Text inputText; 
+		public GameObject PredictedWord;
+		public GameObject opt1, opt2, opt3;
 
         private static VRDeviceManager s_Instance;
 		private bool zoneEntered = false;
@@ -23,6 +26,7 @@ namespace VRStandardAssets.Utils
 
 		private int state = -1;
 		private int lastZone = -1;
+		private SymSpell symSpell;
 
 		char [,]QuikWritting = new char[8,5]
 							  { {'A','K','S','M','Q'},
@@ -76,12 +80,65 @@ namespace VRStandardAssets.Utils
 				inputText.text = "";
 		}
 
-		public void onEvent(string mString){
+		private void populatePrediction(string text){
+			string[] words = text.Split (' ');
+			string lastWord = words [words.Length - 1];
+
+			if(lastWord!=null && symSpell!=null){
+				var suggestions = symSpell.Lookup (lastWord, SymSpell.Verbosity.All, 3);
+				int i = 0;
+				if (suggestions.Count > 0) {
+					PredictedWord.name = suggestions [0].term;
+					Text txtTag = PredictedWord.GetComponentInChildren<Text> ();
+					if (txtTag != null)
+						txtTag.text = suggestions [0].term;
+				}
+				HashSet<char> cSet = new HashSet<char>();
+				while (i < suggestions.Count && cSet.Count < 3) {
+					string sug = suggestions [i++].term;
+					if(sug.Length>lastWord.Length && sug [sug.Length - 1]!= '\0')
+						cSet.Add (sug [sug.Length - 1]);
+				}
+
+				i =0;
+				foreach(char c  in cSet){
+					GameObject cGameObject = null;
+
+					switch (i) {
+					case 1:
+						cGameObject = opt1;
+						break;
+					case 2:
+						cGameObject = opt2;
+						break;
+					case 3:
+						cGameObject = opt3;
+						break;
+					}
+
+					if (cGameObject != null) {
+						cGameObject.name = "" + c;
+						Text txtText = cGameObject.GetComponentInChildren<Text> ();
+						if (txtText != null)
+							txtText.text = "" + c; 
+						i++;
+					}
+				}
+			}
+		}
+
+		public void onEvent(string mString,bool isPrediction){
 			int EXZONE = 9;
 			int code;
+
+
+			if (isPrediction) {
+				inputText.text += mString;
+				populatePrediction (inputText.text);
+				return;
+			}
+
 			int.TryParse (mString, out code);
-
-
 			if (code == 0) {
 				init = true;
 				if (!zoneEntered)
@@ -95,6 +152,9 @@ namespace VRStandardAssets.Utils
 					Debug.Log ("GFX: Two Values:" + zoneList [0]+" :"+zoneList[1]);
 					codeToChar (zoneList [0], innerGridCross, zoneList [1]);
 				}
+
+				populatePrediction (inputText.text);
+
 				innerGridCross = 0;
 				lastZone = 0;
 				zoneList.Clear ();
@@ -126,14 +186,25 @@ namespace VRStandardAssets.Utils
 			}
 		}
 
+		public void initDict(){
+			int initialCapacity = 20000;
+			int maxEditDistanceDictionary = 2; //maximum edit distance per dictionary precalculation
+			symSpell = new SymSpell(initialCapacity, maxEditDistanceDictionary);
+			TextAsset dictionaryPath = Resources.Load<TextAsset>("dataset");
+			int termIndex = 0; //column of the term in the dictionary text file
+			int countIndex = 1; //column of the term frequency in the dictionary text file
+			if (!symSpell.LoadDictionary(dictionaryPath, termIndex, countIndex)){
+				Debug.Log ("Unable to load dictionary");    
+			}
+		}
+
         public static VRDeviceManager Instance
         {
             get
             {
                 if (s_Instance == null)
                 {
-                    s_Instance = FindObjectOfType<VRDeviceManager> ();
-                    DontDestroyOnLoad (s_Instance.gameObject);
+                  	DontDestroyOnLoad (s_Instance.gameObject);
                 }
 
                 return s_Instance;
@@ -146,6 +217,7 @@ namespace VRStandardAssets.Utils
             if (s_Instance == null)
             {
                 s_Instance = this;
+				initDict ();
                 DontDestroyOnLoad (this);
             }
             else if (this != s_Instance)

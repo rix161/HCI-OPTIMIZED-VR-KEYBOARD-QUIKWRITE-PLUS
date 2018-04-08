@@ -143,7 +143,7 @@ namespace VRStandardAssets.Utils
                 // If we hit an interactive item and it's not the same as the last interactive item, then call Over
 				if (interactible && interactible != m_LastInteractible) {
 					//Debug.Log ("VREyeRaycaster:" + interactible.transform.name);
-					if (interactible != null && interactible.transform.name.Contains ("Start")) { 
+					if (interactible != null && interactible.transform.tag.Contains ("Button")) { 
 						m_LastInteractible = interactible;
 						StartCoroutine (FillCircle (interactible));
 					}

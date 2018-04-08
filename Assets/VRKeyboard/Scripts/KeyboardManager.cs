@@ -17,6 +17,8 @@ namespace VRKeyboard.Utils {
         
         [Header("UI Elements")]
         public Text inputText;
+		public GameObject Options;
+		public GameObject PredictedWord;
 
         [Header("Essentials")]
         public Transform characters;
