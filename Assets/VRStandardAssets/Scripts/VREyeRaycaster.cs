@@ -138,7 +138,7 @@ namespace VRStandardAssets.Utils
             {
 				VRInteractiveItem interactible = cInteractable;
 				m_CurrentInteractible = interactible;
-				Debug.Log ("GFX: VREyeRaycaster:" + interactible.transform.name);
+				//Debug.Log ("GFX: VREyeRaycaster:" + interactible.transform.name);
 				float timerDuation = 4.0f;
 				float peakFactor = 0.25f;
                 // If we hit an interactive item and it's not the same as the last interactive item, then call Over
