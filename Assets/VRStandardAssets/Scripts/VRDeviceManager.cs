@@ -3,6 +3,7 @@ using UnityEngine.VR;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VRStandardAssets.Utils
 {
@@ -26,7 +27,7 @@ namespace VRStandardAssets.Utils
 
 		private int state = -1;
 		private int lastZone = -1;
-		private SymSpell symSpell;
+		private static SymSpell symSpell;
 
 		char [,]QuikWritting = new char[8,5]
 							  { {'A','K','S','M','Q'},
@@ -83,24 +84,38 @@ namespace VRStandardAssets.Utils
 		private void populatePrediction(string text){
 			string[] words = text.Split (' ');
 			string lastWord = words [words.Length - 1];
-
+			lastWord = lastWord.ToLower ();
+			if (symSpell == null)
+				initDict ();
 			if(lastWord!=null && symSpell!=null){
-				var suggestions = symSpell.Lookup (lastWord, SymSpell.Verbosity.All, 3);
+				List<SymSpell.SuggestItem> suggestions = symSpell.Lookup (lastWord, SymSpell.Verbosity.All, 2);
+				List<SymSpell.SuggestItem> filtered = suggestions.Where(s => (s.term.Length>text.Length)).ToList();
+				filtered = filtered.Where(s => ((s.term.IndexOf(text)==0))).ToList();
+				filtered.Sort ();
+				List<SymSpell.SuggestItem> fitered1, fitered2;
+				if (filtered.Count<= 0) {
+					fitered1 = suggestions.Where (s => (s.distance == 1)).ToList ();
+					fitered2 = suggestions.Where (s => (s.distance == 2)).ToList ();
+				}
+				else{
+					fitered1 = filtered.Where (s => (s.distance == 1)).ToList ();
+					fitered2 = filtered.Where (s => (s.distance == 2)).ToList ();
+				}
 				int i = 0;
-				if (suggestions.Count > 0) {
-					PredictedWord.name = suggestions [0].term;
+				if (fitered2.Count > 0) {
+					PredictedWord.name = fitered2 [0].term;
 					Text txtTag = PredictedWord.GetComponentInChildren<Text> ();
 					if (txtTag != null)
-						txtTag.text = suggestions [0].term;
+						txtTag.text = fitered2 [0].term.ToUpper();
 				}
 				HashSet<char> cSet = new HashSet<char>();
-				while (i < suggestions.Count && cSet.Count < 3) {
-					string sug = suggestions [i++].term;
+				while (i < fitered1.Count && cSet.Count < 3) {
+					string sug = fitered1 [i++].term;
 					if(sug.Length>lastWord.Length && sug [sug.Length - 1]!= '\0')
 						cSet.Add (sug [sug.Length - 1]);
 				}
 
-				i =0;
+				i =1;
 				foreach(char c  in cSet){
 					GameObject cGameObject = null;
 
@@ -120,11 +135,18 @@ namespace VRStandardAssets.Utils
 						cGameObject.name = "" + c;
 						Text txtText = cGameObject.GetComponentInChildren<Text> ();
 						if (txtText != null)
-							txtText.text = "" + c; 
+							txtText.text = "" + c.ToString().ToUpper(); 
 						i++;
 					}
 				}
 			}
+		}
+
+		private string getLastWord(string text){
+			string[] words = text.Split (' ');
+			string lastWord = words [words.Length - 1];
+			lastWord = lastWord.ToLower ();
+			return lastWord;
 		}
 
 		public void onEvent(string mString,bool isPrediction){
@@ -133,8 +155,12 @@ namespace VRStandardAssets.Utils
 
 
 			if (isPrediction) {
-				inputText.text += mString;
-				populatePrediction (inputText.text);
+				if (mString.Length > 1) {
+					string lastWord = getLastWord (inputText.text);
+					inputText.text = inputText.text.Substring (inputText.text.Length - lastWord.Length + 1);
+				}
+				inputText.text += mString.ToUpper();
+				StartCoroutine(populatePrediction (inputText.text));
 				return;
 			}
 
@@ -153,7 +179,7 @@ namespace VRStandardAssets.Utils
 					codeToChar (zoneList [0], innerGridCross, zoneList [1]);
 				}
 
-				populatePrediction (inputText.text);
+				StartCoroutine(populatePrediction (inputText.text));
 
 				innerGridCross = 0;
 				lastZone = 0;
@@ -181,6 +207,7 @@ namespace VRStandardAssets.Utils
 				} else {
 					enterCode = code;
 				}*/
+
 			} else {
 				innerGridCross = code - 100;
 			}

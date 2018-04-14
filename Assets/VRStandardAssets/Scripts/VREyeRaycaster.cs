@@ -72,7 +72,7 @@ namespace VRStandardAssets.Utils
 
 
 		#region Private Methods
-		private IEnumerator FillCircle(VRInteractiveItem target) {
+		private IEnumerator FillCircle(VRInteractiveItem target,float loadingTime) {
 			// When the circle starts to fill, reset the timer.
 			float timer = 0f;
 			circle.fillAmount = 0f;
@@ -139,16 +139,21 @@ namespace VRStandardAssets.Utils
 				VRInteractiveItem interactible = cInteractable;
 				m_CurrentInteractible = interactible;
 				Debug.Log ("GFX: VREyeRaycaster:" + interactible.transform.name);
-
+				float timerDuation = 4.0f;
+				float peakFactor = 0.25f;
                 // If we hit an interactive item and it's not the same as the last interactive item, then call Over
 				if (interactible && interactible != m_LastInteractible) {
 					//Debug.Log ("VREyeRaycaster:" + interactible.transform.name);
 					if (interactible != null && interactible.transform.tag.Contains ("Button")) { 
 						m_LastInteractible = interactible;
-						StartCoroutine (FillCircle (interactible));
-					}
-					else
+						if(interactible.tag.Contains("ButtonWord"))
+							StartCoroutine (FillCircle (interactible,timerDuation));
+						else
+							StartCoroutine (FillCircle (interactible,timerDuation*peakFactor));
+					} else {
+						ResetGazer ();
 						interactible.Over ();
+					}
 
 				}
 
@@ -171,6 +176,7 @@ namespace VRStandardAssets.Utils
                 // Nothing was hit, deactive the last interactive item.
                 DeactiveLastInteractible();
                 m_CurrentInteractible = null;
+				ResetGazer();
 
                 // Position the reticle at default distance.
                 if (m_Reticle)

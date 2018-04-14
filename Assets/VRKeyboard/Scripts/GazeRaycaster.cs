@@ -59,6 +59,7 @@ namespace VRKeyboard.Utils {
             } else {
                 ResetGazer();
             }
+			ResetGazer();
         }
         #endregion
 
