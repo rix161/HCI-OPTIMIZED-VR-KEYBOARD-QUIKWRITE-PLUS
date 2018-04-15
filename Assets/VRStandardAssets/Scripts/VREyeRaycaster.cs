@@ -147,9 +147,9 @@ namespace VRStandardAssets.Utils
 					if (interactible != null && interactible.transform.tag.Contains ("Button")) { 
 						m_LastInteractible = interactible;
 						if(interactible.tag.Contains("ButtonWord"))
-							StartCoroutine (FillCircle (interactible,timerDuation));
-						else
 							StartCoroutine (FillCircle (interactible,timerDuation*peakFactor));
+						else
+							StartCoroutine (FillCircle (interactible,timerDuation));
 					} else {
 						ResetGazer ();
 						interactible.Over ();
