@@ -33,9 +33,13 @@ public class Gazetest: MonoBehaviour {
 					m_InteractiveItem.GetComponent<Renderer> ().material.color = Color.blue;
 					int.TryParse (m_InteractiveItem.name, out code);
 					string temp = (100 + code).ToString ();
-				mVRDevice.onEvent (temp,false);
+					mVRDevice.onEvent (temp,false);
 			} else if (m_InteractiveItem.tag.Contains("Button")) {
-				mVRDevice.onEvent (m_InteractiveItem.name, true);
+				if (m_InteractiveItem.tag.Contains ("Text")) {
+					mVRDevice.onEvent ("-1", false);
+				} else {
+					mVRDevice.onEvent (m_InteractiveItem.name, true);
+				}
 			}
 		}
 

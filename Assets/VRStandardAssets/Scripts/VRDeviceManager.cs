@@ -209,13 +209,12 @@ namespace VRStandardAssets.Utils
 					codeToChar (zoneList [0], innerGridCross, zoneList [1]);
 				}
 
-				StartCoroutine(populatePrediction (inputText.text));
+				StartCoroutine (populatePrediction (inputText.text));
 
 				innerGridCross = 0;
 				lastZone = 0;
 				zoneList.Clear ();
-			}
-			else if (code >0 && code < EXZONE && init) {
+			} else if (code > 0 && code < EXZONE && init) {
 				zoneEntered = true;
 
 				if (code != lastZone) {
@@ -235,7 +234,9 @@ namespace VRStandardAssets.Utils
 					enterCode = code;
 				}*/
 
-			} else {
+			} else if (code < 0) {
+				inputText.text = "";
+			}else {
 				innerGridCross = code - 100;
 			}
 		}
