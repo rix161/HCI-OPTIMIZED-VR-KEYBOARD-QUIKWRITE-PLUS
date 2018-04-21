@@ -39,13 +39,13 @@ namespace VRStandardAssets.Utils
 							  {'N','X','L','F','P'},
 							  {' ',' ',' ',' ',' '}};
 		char [,]QuikWrittingplus = new char[8,5]
-			{ {'E','O','J','W','M'},
-			{'A','Y',' ',' ','S'},
-			{'R','K','P','D','Z'},
+			{ {'N','L','G','Q','S'},
+			{'A','Y',' ',' ','B'},
+			{'E','R','W','X','Z'},
 			{' ',' ',' ',' ',' '},
-			{'N','C','B','V','G'},
-			{'L','U',' ',' ','H'},
-			{'I','T','Q','X','F'},
+			{'O','C','J','V','M'},
+			{'T','U',' ',' ','F'},
+			{'I','H','P','K','D'},
 			{' ',' ',' ',' ',' '}};
 		List<int> zoneList = new List<int>();
 		bool init = false;
